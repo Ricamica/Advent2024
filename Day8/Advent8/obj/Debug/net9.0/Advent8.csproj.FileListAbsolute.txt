@@ -1,0 +1,14 @@
+C:\Users\admin\Documents\Advent8\obj\Debug\net9.0\Advent8.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\Documents\Advent8\obj\Debug\net9.0\Advent8.AssemblyInfoInputs.cache
+C:\Users\admin\Documents\Advent8\obj\Debug\net9.0\Advent8.AssemblyInfo.cs
+C:\Users\admin\Documents\Advent8\obj\Debug\net9.0\Advent8.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\Advent8\bin\Debug\net9.0\Advent8.exe
+C:\Users\admin\Documents\Advent8\bin\Debug\net9.0\Advent8.deps.json
+C:\Users\admin\Documents\Advent8\bin\Debug\net9.0\Advent8.runtimeconfig.json
+C:\Users\admin\Documents\Advent8\bin\Debug\net9.0\Advent8.dll
+C:\Users\admin\Documents\Advent8\bin\Debug\net9.0\Advent8.pdb
+C:\Users\admin\Documents\Advent8\obj\Debug\net9.0\Advent8.dll
+C:\Users\admin\Documents\Advent8\obj\Debug\net9.0\refint\Advent8.dll
+C:\Users\admin\Documents\Advent8\obj\Debug\net9.0\Advent8.pdb
+C:\Users\admin\Documents\Advent8\obj\Debug\net9.0\Advent8.genruntimeconfig.cache
+C:\Users\admin\Documents\Advent8\obj\Debug\net9.0\ref\Advent8.dll
