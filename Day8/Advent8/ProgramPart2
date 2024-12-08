@@ -1,0 +1,92 @@
+using System.Security.Cryptography.X509Certificates;
+using Advent8;
+string[] input = System.IO.File.ReadAllLines(@"input.txt");
+string[] testinput = System.IO.File.ReadAllLines(@"Tinput2.txt");
+Day8 program = new Day8(input);
+Day8 test = new Day8(testinput);
+Console.WriteLine(program.Part1());
+//Console.WriteLine(test.Part1());
+
+namespace Advent8{    
+    public class Day8(string[] input){
+        
+        public int lengthX = input[0].Length;
+        public int lengthY = input.Length;
+        public List<(int,int)> listAntinodes = [];
+        public int count = 0;
+
+        public int Part1(){
+        int list = 0;
+        for(int column = 0; column<input.Length;column++){
+            for(int row = 0; row<input[0].Length;row++){
+                if(input[column][row].ToString()!="."){
+                    list = GetAntinodeList(input[column][row].ToString(),row,column,input);
+                }        
+            }
+        }
+        return list;
+        }
+
+        public List< (int,int) > GetAntinodeLocations((int,int) firstAntena,(int,int) secondAntena){
+            List< (int,int) > oneList = new();
+            
+            (int,int)[] onePair = [];
+            int firstAntenaX = firstAntena.Item1; 
+            int firstAntenaY = firstAntena.Item2; 
+            
+            int secondAntenaX = secondAntena.Item1; 
+            int secondAntenaY = secondAntena.Item2; 
+            
+            int newX = firstAntenaX - secondAntenaX;
+            int newY = firstAntenaY - secondAntenaY;
+            (int,int)firstAntinode = (firstAntenaX+newX,firstAntenaY+newY);
+            
+            oneList.Add(firstAntena);
+            oneList.Add(secondAntena);
+                //Console.WriteLine(firstAntinode);
+            while(!OutOfBounds(firstAntinode.Item1,firstAntinode.Item2)){
+                oneList.Add(firstAntinode);  
+                //Console.WriteLine(firstAntinode);  
+                firstAntinode = (firstAntinode.Item1+newX,firstAntinode.Item2+newY);
+            }  
+
+            (int,int)secondAntinode = (secondAntenaX+(newX*-1),secondAntenaY+(newY*-1));
+                //Console.WriteLine(firstAntinode);
+
+            while(!OutOfBounds(secondAntinode.Item1,secondAntinode.Item2)){
+                oneList.Add(secondAntinode);  
+                //Console.WriteLine(secondAntinode);  
+
+                secondAntinode= (secondAntinode.Item1+(newX*-1),secondAntinode.Item2+(newY*-1));
+            }
+            return oneList;
+        }
+        public bool OutOfBounds(int X, int Y){
+            bool outOfBounds = X >= this.lengthX || X < 0 ||
+            Y >= this.lengthY || Y <0;
+            return outOfBounds;
+        }
+    
+
+        public int GetAntinodeList(string currentAntena, int startX, int startY, string[] input){
+            for(int Y = startY; Y<this.lengthY;Y++){
+                for(int X = 0; X<this.lengthX;X++){
+                    if(input[Y][X].ToString() != "." && input[Y][X].ToString() == currentAntena && !(X==startX && Y==startY)){
+                        var a = GetAntinodeLocations((startX,startY),(X,Y));
+                        
+                        foreach(var antinode in a){
+                            bool tupleHadProduct = listAntinodes.Any(m => m == antinode);
+                            if( !listAntinodes.Any(m => m == antinode)){
+                                if(!OutOfBounds(antinode.Item1,antinode.Item2)){
+                                    count++;
+                                    listAntinodes.Add(antinode);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return count;   
+        }
+    }    
+}
