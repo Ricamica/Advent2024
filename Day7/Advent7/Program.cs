@@ -1,72 +1,42 @@
-﻿
-using System.Security.Principal;
+using System.Text.RegularExpressions;
 
-string[] input = System.IO.File.ReadAllLines(@"Tinput.txt");
-string productOptions = "+*";
-long pocetZnaminek = productOptions.Length;
-List<long> resultList = [];
-
-foreach(var radek in input){
-    long DesiredResult  = long.Parse(radek.Split(": ")[0]);
-    string[] cisla = radek.Split(": ")[1].Split(" ");
-    long PocetMezer =GetPocetMezer(radek.Split(": ")[1]);
-    long PocetKombinaci = (long)Math.Pow(pocetZnaminek,PocetMezer);
+Program p = new Program();
+p.Part1();
+public partial class Program{
+    string[]
     
-    List<string> KombinaceZnamenek= new List<string>();
-    BuildPossibleCombination(0, new List < string >(),PocetMezer,productOptions,ref KombinaceZnamenek);
-    foreach(var jednaKombinace in KombinaceZnamenek){
-//Console.WriteLine(jednaKombinace);
-        long vysledek = long.Parse(cisla[0]);
-            
-        for(long index = 0 ; index<jednaKombinace.Length;index++){
-            
-            if(jednaKombinace[(int)index].ToString() == "+"){
-                vysledek+= long.Parse(cisla[(int)index+1]);
-            }
-            if(jednaKombinace[(int)index].ToString() == "*"){
-                vysledek*= long.Parse(cisla[(int)index+1]);
-            }
-            
-            
-        }
-        if(vysledek == DesiredResult){
-            if(!resultList.Contains(DesiredResult)){
-                resultList.Add(DesiredResult);
-            }
-        }
+    input = System.IO.File.ReadAllLines(@"input.txt");
+    
+    public Program(){
+        
     }
-}
-long result = 0;
-foreach(var i in resultList){
-    result+= i;
-}
-Console.WriteLine(result);
 
+    public void Part1(){
+        long totalReult = 0;
+        foreach(var line in input){
+            var parts = line.Split(": ", StringSplitOptions.TrimEntries);
+            long target = long.Parse(parts[0]);
+            long[] operators = parts[1].Split(" ").Select(long.Parse).ToArray();
+            long result = 0;
 
-string GetValue(string line){
-    return line.Split(": ")[0];
-}
-
-long GetPocetMezer(string line){
-    long pocet = 0;
-    foreach(char c in line){
-        if(c.ToString() ==" "){
-            pocet++;
-        }   
-    }
-    return pocet;
-}
-
-static void BuildPossibleCombination(long level, List < string > output,long PocetKombinaci, string ListZnaminek, ref List<string> result) {    
-    if(level < PocetKombinaci){
-        foreach(var znaminko in ListZnaminek){
-            List < string > resultList = new List < string > ();
-            resultList.AddRange(output);
-            resultList.Add(znaminko.ToString());
-            if (resultList.Count == PocetKombinaci) {
-                result.Add((string.Join("", resultList)));
+            bool Matches(long[] zbytekCisel, long total){
+                if(zbytekCisel.Length == 0){
+                    if(total == target){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+                var remainingArray = zbytekCisel.Skip(1).ToArray();
+                return Matches(remainingArray, total*zbytekCisel[0]) || Matches(remainingArray, total+zbytekCisel[0]);
             }
-            BuildPossibleCombination(level+1, resultList, PocetKombinaci, ListZnaminek,ref result);
+            bool isMatch = Matches(operators,result);
+            
+            if(isMatch){
+                totalReult+=target;
+            }
         }
+        Console.WriteLine(totalReult);
     }
 }
